@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: roberta-api-service
+  annotations:
+    cloud.google.com/load-balancer-type: "Internal"
+spec:
+  type: LoadBalancer
+  selector:
+    app: roberta-api
+  ports:
+  - name: http
+    port: 80
+    targetPort: 5000
+  loadBalancerIP: [Load_Balancer]

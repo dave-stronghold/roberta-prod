@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: roberta-deploy
+  labels:
+    app: roberta-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: roberta-api
+  template:
+    metadata:
+      labels:
+        app: roberta-api
+    spec:
+      containers:
+      - name: roberta-api
+        image: gcr.io/[Project_Id]/roberta-api:latest
+        ports:
+        - containerPort: 5000
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: roberta-api-service
+spec:
+  selector:
+    app: roberta-api
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+  type: LoadBalancer
